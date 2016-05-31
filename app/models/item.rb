@@ -1,5 +1,5 @@
 class Item < ActiveRecord::Base
-
+  belongs_to :merchant
   before_save :convert_to_dollars
 
   def convert_to_dollars

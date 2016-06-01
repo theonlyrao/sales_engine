@@ -31,5 +31,21 @@ RSpec.describe "ItemsControllers", type: :request do
     expect(response.body).to include("Finder works")
   end
 
+  it "can find multiple items" do
+    get "/api/v1/items/find_all?description=1"
+    parsed_response = JSON.parse(response.body)
+    expect(parsed_response.count).to eq(12)    
+    expect(response.content_type).to eq("application/json")
+  end
+  
+  it "can find a random invoice" do
+    get "/api/v1/items/random.json"
+    parsed_response = JSON.parse(response.body)    
+    expect(parsed_response.class).to eq(Hash)        
+    expect(response.content_type).to eq("application/json")
+    expect(response.body).to include("Description of item")
+  end
+
+
 
 end

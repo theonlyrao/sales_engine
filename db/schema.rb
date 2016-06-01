@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160531235014) do
+ActiveRecord::Schema.define(version: 20160601035359) do
 
   create_table "customers", force: :cascade do |t|
     t.string   "first_name"
@@ -19,6 +19,18 @@ ActiveRecord::Schema.define(version: 20160531235014) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "invoice_items", force: :cascade do |t|
+    t.integer  "item_id"
+    t.integer  "invoice_id"
+    t.integer  "quantity"
+    t.float    "unit_price"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "invoice_items", ["invoice_id"], name: "index_invoice_items_on_invoice_id"
+  add_index "invoice_items", ["item_id"], name: "index_invoice_items_on_item_id"
 
   create_table "invoices", force: :cascade do |t|
     t.integer  "customer_id"
@@ -47,5 +59,16 @@ ActiveRecord::Schema.define(version: 20160531235014) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "transactions", force: :cascade do |t|
+    t.string   "credit_card_number"
+    t.date     "credit_card_expiration_date"
+    t.string   "result"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "invoice_id"
+  end
+
+  add_index "transactions", ["invoice_id"], name: "index_transactions_on_invoice_id"
 
 end

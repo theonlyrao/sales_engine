@@ -1,10 +1,9 @@
 require 'csv'
 
-desc "Import test data from csv file"
+desc "Import data from csv files"
 task :import => :environment do
 
-  file = "db/data/stubs/rake_data.csv"
-
+  file = "db/data/customers.csv"
   CSV.foreach(file, :headers => true) do |row|
     Customer.create({
       first_name: row[1],
@@ -14,7 +13,32 @@ task :import => :environment do
     })
   end
 
-  file = "db/data/stubs/rake_data_2.csv"
+  file = "db/data/invoice_items.csv"
+
+  CSV.foreach(file, :headers => true) do |row|
+    InvoiceItem.create({
+      item_id: row[1],
+      invoice_id: row[2],
+      quantity: row[3],
+      unit_price: row[4],
+      created_at: row[5],
+      updated_at: row[6]
+    })
+  end
+
+    file = "db/data/invoices.csv"
+
+  CSV.foreach(file, :headers => true) do |row|
+    Invoice.create({
+      customer_id: row[1],
+      merchant_id: row[2],
+      status: row[3],
+      created_at: row[5],
+      updated_at: row[6]
+    })
+  end
+
+    file = "db/data/items.csv"
 
   CSV.foreach(file, :headers => true) do |row|
     Item.create({
@@ -22,6 +46,29 @@ task :import => :environment do
       description: row[2],
       unit_price: row[3],
       merchant_id: row[4],
+      created_at: row[5],
+      updated_at: row[6]
+    })
+  end
+
+    file = "db/data/merchants.csv"
+
+  CSV.foreach(file, :headers => true) do |row|
+    Merchant.create({
+      name: row[1],
+      created_at: row[5],
+      updated_at: row[6]
+    })
+  end
+
+    file = "db/data/transactions.csv"
+
+  CSV.foreach(file, :headers => true) do |row|
+    Transaction.create({
+      invoice_id: row[1],
+      credit_card_number: row[2],
+      credit_card_expiration_date: row[3],
+      result: row[4],
       created_at: row[5],
       updated_at: row[6]
     })

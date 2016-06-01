@@ -12,6 +12,12 @@ Rails.application.routes.draw do
       get "/invoices/find", to: "invoices#find"
       get "/invoices/random", to: "invoices#random"
       get "/invoices/:id", to: "invoices#show"
+
+      get "/items", to: "items#index"
+      get "/items/find", to: "items/finder#show"
+      get "/items/find_all", to: "items/finder#index"
+      get "/items/random", to: "items/random#show"
+      get "/items/:id", to: "items#show"
     end
   end
   # The priority is based upon order of creation: first created -> highest priority.

@@ -24,6 +24,12 @@ Rails.application.routes.draw do
       get "/transactions/find_all", to: "transactions/finder#index"
       get "/transactions/random", to: "transactions/random#show"
       get "/transactions/:id", to: "transactions#show"
+
+      get "/merchants", to: "merchants#index"
+      get "/merchants/find", to: "merchants/finder#show"
+      get "/merchants/find_all", to: "merchants/finder#index"
+      get "/merchants/random", to: "merchants/random#show"
+      get "/merchants/:id", to: "merchants#show"
     end
   end
   # The priority is based upon order of creation: first created -> highest priority.

@@ -120,7 +120,7 @@ class CreateData
         created_at: 12.days.ago,
         updated_at: 12.days.ago
     )
-    Customer.find(1).transactions << Transaction.create!(
+    Transaction.create!(
       invoice_id: Invoice.last,
       credit_card_number: "1234",
       credit_card_expiration_date: "08/1030",
@@ -134,7 +134,7 @@ class CreateData
         created_at: 12.days.ago,
         updated_at: 12.days.ago
     )
-    Customer.find(1).transactions << Transaction.create!(
+    Transaction.create!(
       invoice_id: Invoice.last,
       credit_card_number: "1234",
       credit_card_expiration_date: "08/1030",
@@ -148,7 +148,7 @@ class CreateData
         created_at: 12.days.ago,
         updated_at: 12.days.ago
     )
-    Customer.find(1).transactions << Transaction.create!(
+    Transaction.create!(
       invoice_id: Invoice.last,
       credit_card_number: "1234",
       credit_card_expiration_date: "08/1030",

@@ -18,6 +18,12 @@ Rails.application.routes.draw do
       get "/items/find_all", to: "items/finder#index"
       get "/items/random", to: "items/random#show"
       get "/items/:id", to: "items#show"
+
+      get "/transactions", to: "transactions#index"
+      get "/transactions/find", to: "transactions/finder#show"
+      get "/transactions/find_all", to: "transactions/finder#index"
+      get "/transactions/random", to: "transactions/random#show"
+      get "/transactions/:id", to: "transactions#show"
     end
   end
   # The priority is based upon order of creation: first created -> highest priority.

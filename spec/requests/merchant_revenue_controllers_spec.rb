@@ -11,7 +11,7 @@ RSpec.describe "MerchantRevenueControllers", type: :request do
     # second_invoice.invoice_items << create(:invoice_item, unit_price: 1000)
     #merchant.invoices << [first_invoice, second_invoice]
     first_transaction = create(:transaction, invoice_id: first_invoice)
-    second_transaction = create(:transaction, invoice_ids: second_invoice)
+    second_transaction = create(:transaction, invoice_id: second_invoice)
     get "/api/v1/merchants/#{merchant.id}/revenue"
     expect(response.body).to include(40.00)
   end

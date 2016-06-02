@@ -13,9 +13,9 @@ class Api::V1::Items::FinderController < ApplicationController
     elsif params.first.first == "merchant_id"
       respond_with Item.find_by(merchant_id: params.first.last)
     elsif params.first.first == "created_at"
-      respond_with Item.find_by(created_at: params.first.last)
+      respond_with Item.where("created_at = ?", "#{params.first.last}").order(:id).limit(1).first
     else
-      respond_with Item.find_by(updated_at: params.first.last)
+      respond_with Item.where("updated_at = ?", "#{params.first.last}").order(:id).limit(1).first
     end
   end
 

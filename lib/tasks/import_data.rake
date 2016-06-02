@@ -1,17 +1,21 @@
 require 'csv'
 
 desc "Import data from csv files"
-task :import => :environment do
+task :import_data => :environment do
 
   puts "importing customers"
   file = "db/data/customers.csv"
+  @counter = 0
   CSV.foreach(file, :headers => true) do |row|
-    Customer.create({
+    customer = Customer.new({
       first_name: row[1],
       last_name: row[2],
       created_at: row[3],
       updated_at: row[4],
-    })
+                            })
+    customer.save
+    @counter += 1
+    puts "created #{row[1]}, count is #{@counter}"
   end
   
   puts "importing merchants"

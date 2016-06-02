@@ -32,9 +32,19 @@ RSpec.describe "ItemsControllers", type: :request do
     expect(response.body).to include(item.description)
 
     time = "2016-05-31 16:57:31 UTC"
-    item = Item.create!(description: "Finder works", updated_at: time, unit_price: 12345)
-    get "/api/v1/items/find?updated_at=2016-05-31T16:57:31.000Z"
-    expect(response.body).to include("Finder works")
+    #item = Item.create!(description: "Finder works", updated_at: time, unit_price: 12345)
+    item_one = create(:item, updated_at: time)
+    #get "/api/v1/items/find?updated_at=2016-05-31T16:57:31.000Z"
+    get "/api/v1/items/find?updated_at=#{time}"
+    expect(response.body).to include("#{item_one.description}")
+
+    time_two = "2015-06-19 16:57:31 UTC"
+    #item = Item.create!(description: "Finder works", updated_at: time_two, unit_price: 12345)
+    item_two = create(:item, created_at: time_two)
+    #get "/api/v1/items/find?updated_at=2016-05-31T16:57:31.000Z"
+    get "/api/v1/items/find?created_at=#{time_two}"
+    expect(response.body).to include("#{item_two.description}")
+
   end
 
   it "can find multiple items by description" do
@@ -54,7 +64,6 @@ RSpec.describe "ItemsControllers", type: :request do
     expect(parsed_response.count).to eq(2)    
     expect(response.content_type).to eq("application/json")    
   end
-  
   
   it "can find a random invoice" do
     get "/api/v1/items/random.json"

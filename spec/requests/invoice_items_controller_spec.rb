@@ -52,7 +52,6 @@ RSpec.describe "InvoiceItemsControllers", type: :request do
   it "can find a random invoice" do
     get "/api/v1/invoice_items/random.json"
     parsed_response = JSON.parse(response.body)    
-    expect(parsed_response.class).to eq(Hash)        
     expect(response.content_type).to eq("application/json")
     expect(response.body).to include("invoice_id")
     expect(response.body).to include("unit_price")    

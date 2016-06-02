@@ -3,6 +3,6 @@ class Api::V1::Merchants::MerchantRevenueController < ApplicationController
   
   def show
     merchant = Merchant.find(params[:id])
-    respond_with merchant.transactions.where("result = ?", "success").joins(:invoice_items).sum("quantity * unit_price")
+    respond_with merchant.transactions.where("result = ?", "success").joins(:invoice_items).sum("quantity * unit_price"), serializer: MerchantRevenueSerializer
   end
 end

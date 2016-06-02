@@ -2,9 +2,9 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       get "/customers", to: "customers#index"
-      get "/customers/find_all", to: "customers#find_all"
-      get "/customers/find", to: "customers#find"
-      get "/customers/random", to: "customers#random"
+      get "/customers/find_all", to: "customers/finder#index"
+      get "/customers/find", to: "customers/finder#show"
+      get "/customers/random", to: "customers/random#show"
       get "/customers/:id", to: "customers#show"
 
       get "/invoices", to: "invoices#index"

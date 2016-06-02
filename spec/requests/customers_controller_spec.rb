@@ -1,36 +1,42 @@
 require "rails_helper"
 
 RSpec.describe "Index", type: :request do
+  before(:all) do
+    5.times do
+      create(:customer)
+    end
+  end
+  
   it "returns all customers" do
     get "/api/v1/customers.json"
     parsed_response = JSON.parse(response.body)
     expect(response.content_type).to eq("application/json")
-    expect(parsed_response.count).to eq(20)
-    expect(response.body).to include("Customer 0 First")
-    expect(response.body).to include("Customer 10 First")
-    expect(response.body).to include("Customer 19 First")
+    expect(parsed_response.count).to eq(6)
+    expect(response.body).to include("First1")
+    expect(response.body).to include("First3")
+    expect(response.body).to include("First6")
   end
 
   it "returns individual customer" do
     get "/api/v1/customers/1.json"
-    first_name = Customer.find(1).first_name
+    customer = Customer.find(1)
     expect(response.content_type).to eq("application/json")
-    expect(response.body).to include("Customer 0 First")
-    expect(first_name).to eq("Customer 0 First")
+    expect(response.body).to include("#{customer.first_name}")
+    expect(response.body).to include("#{customer.last_name}")
   end
 
   it "can find a single customer" do
     get "/api/v1/customers/find?id=3"
-    first_name = Customer.find(3).first_name    
+    customer = Customer.find(3)
     expect(response.content_type).to eq("application/json")
-    expect(first_name).to eq("Customer 2 First")    
-    expect(response.body).to include("Customer 2 First")
+    expect(response.body).to include("#{customer.first_name}")
+    expect(response.body).to include("#{customer.last_name}")
+    
+    get "/api/v1/customers/find?first_name=First4"
+    expect(response.body).to include("Last4")
 
-    get "/api/v1/customers/find?first_name=Customer%202%20First"
-    expect(response.body).to include("Customer 2 First")
-
-    get "/api/v1/customers/find?last_name=Customer%202%20Last"
-    expect(response.body).to include("Customer 2 First")
+    get "/api/v1/customers/find?last_name=Last5"
+    expect(response.body).to include("First5")
 
     time = "2016-05-31 16:57:31 UTC"
     customer = Customer.create!(first_name: "created_at_test", created_at: time)
@@ -39,12 +45,14 @@ RSpec.describe "Index", type: :request do
   end
 
   it "can find multiple customers" do
-    get "/api/v1/customers/find_all?first_name=2"
+    original = Customer.find(2)
+    customer = create(:customer, first_name: "First2")
+    get "/api/v1/customers/find_all?first_name=First2"
     parsed_response = JSON.parse(response.body)
     expect(parsed_response.count).to eq(2)    
     expect(response.content_type).to eq("application/json")
-    expect(response.body).to include("Customer 2 First")
-    expect(response.body).to include("Customer 12 First")
+    expect(response.body).to include("#{original.last_name}")
+    expect(response.body).to include("#{customer.last_name}")
   end
 
   it "can find a random customer" do
@@ -52,6 +60,6 @@ RSpec.describe "Index", type: :request do
     parsed_response = JSON.parse(response.body)    
     expect(parsed_response.class).to eq(Hash)        
     expect(response.content_type).to eq("application/json")
-    expect(response.body).to include("Customer")
+    expect(response.body).to include("First")
   end
 end

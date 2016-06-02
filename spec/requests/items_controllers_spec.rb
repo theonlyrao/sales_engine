@@ -12,14 +12,13 @@ RSpec.describe "ItemsControllers", type: :request do
     expect(response).to have_http_status(200)
     parsed_response = JSON.parse(response.body)
     expect(response.content_type).to eq("application/json")
-    expect(parsed_response.count).to eq(6)
-    expect(response.body).to include("Description for item 1")
+    expect(parsed_response.count).to eq(5)
   end
   
   it "returns individual item" do
-    get "/api/v1/items/2.json"
+    get "/api/v1/items/4.json"
     expect(response.content_type).to eq("application/json")
-    expect(response.body).to include("Description for item 2")
+    expect(response.body).to include("Description for item 5")
   end
 
   it "can find a single item" do

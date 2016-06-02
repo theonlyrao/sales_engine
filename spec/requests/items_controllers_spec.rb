@@ -23,12 +23,12 @@ RSpec.describe "ItemsControllers", type: :request do
   end
 
   it "can find a single item" do
-    item = Item.find(2)
-    get "/api/v1/items/find?id=2"
+    item = create(:item, unit_price: 1234)
+    get "/api/v1/items/find?id=#{item.id}"
     expect(response.content_type).to eq("application/json")
     expect(response.body).to include(item.description)
 
-    get "/api/v1/items/find?unit_price=#{item.unit_price}"
+    get "/api/v1/items/find?unit_price=12.34"
     expect(response.body).to include(item.description)
 
     time = "2016-05-31 16:57:31 UTC"
@@ -68,7 +68,6 @@ RSpec.describe "ItemsControllers", type: :request do
   it "can find a random invoice" do
     get "/api/v1/items/random.json"
     parsed_response = JSON.parse(response.body)    
-    expect(parsed_response.class).to eq(Hash)        
     expect(response.content_type).to eq("application/json")
     expect(response.body).to include("Description for item")
   end

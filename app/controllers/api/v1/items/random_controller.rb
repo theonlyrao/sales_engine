@@ -2,7 +2,6 @@ class Api::V1::Items::RandomController < ApplicationController
   respond_to :json
   
   def show
-    query = rand(1..Item.count)
-    respond_with Item.find(query)
+    respond_with Item.limit(1).order("RANDOM()")
   end
 end

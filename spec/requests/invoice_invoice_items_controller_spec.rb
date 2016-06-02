@@ -15,7 +15,6 @@ RSpec.describe "InvoiceInvoiceItemsController", type: :request do
     expect(response.body).to include("#{invoice_item_one.invoice_id}")
     expect(response.body).to include("#{invoice_item_one.item_id}")
     expect(response.body).to include("#{invoice_item_one.quantity}")
-    expect(response.body).to include("#{invoice_item_one.unit_price}")
     expect(response.body).not_to include("#{invoice_item_one.created_at}")
     expect(response.body).not_to include("#{invoice_item_one.updated_at}")
   end

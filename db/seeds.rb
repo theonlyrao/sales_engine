@@ -45,7 +45,7 @@ class CreateData
     number.times do |n|
       Invoice.create!(
         customer_id: n,
-        merchant_id: n % 10,
+        merchant_id: (n % 10),
         status: "status",
         created_at: n.days.ago,
         updated_at: n.days.ago

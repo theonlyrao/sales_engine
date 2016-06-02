@@ -10,17 +10,22 @@ class Api::V1::CustomersController < ApplicationController
   end
 
   def find
-    query = { params.first[0] => params.first[1] }
-    if params.first[0] == "created_at" || params.first[0] == "updated_at"
-      query = { params.first[0] => Time.zone.parse(params.first[1]) }
-      respond_with Customer.find_by(query)
-    else
-      respond_with Customer.find_by(query)
-    end
+    #query = { params.first[0] => params.first[1] }
+    # if params.first[0] == "created_at" || params.first[0] == "updated_at"
+    #   query = { params.first[0] => Time.zone.parse(params.first[1]) }
+    #   respond_with Customer.find_by(query)
+    # else
+    attribute = params.first[0]
+    value = params.first[1].to_json
+    byebug
+    respond_with Customer.find_by(attribute => value)
+    #end
   end
 
   def find_all
-    respond_with Customer.where("first_name LIKE ?", "%#{params[:first_name]}%")
+    attribute = params.first[0]
+    value = params.first[1].to_json
+    respond_with Customer.where(attribute = value)
   end
 
   def random

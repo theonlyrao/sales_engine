@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160601035359) do
+ActiveRecord::Schema.define(version: 20160601035460) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "customers", force: :cascade do |t|
     t.string   "first_name"
@@ -29,8 +32,8 @@ ActiveRecord::Schema.define(version: 20160601035359) do
     t.datetime "updated_at"
   end
 
-  add_index "invoice_items", ["invoice_id"], name: "index_invoice_items_on_invoice_id"
-  add_index "invoice_items", ["item_id"], name: "index_invoice_items_on_item_id"
+  add_index "invoice_items", ["invoice_id"], name: "index_invoice_items_on_invoice_id", using: :btree
+  add_index "invoice_items", ["item_id"], name: "index_invoice_items_on_item_id", using: :btree
 
   create_table "invoices", force: :cascade do |t|
     t.integer  "customer_id"
@@ -40,19 +43,19 @@ ActiveRecord::Schema.define(version: 20160601035359) do
     t.datetime "updated_at"
   end
 
-  add_index "invoices", ["customer_id"], name: "index_invoices_on_customer_id"
-  add_index "invoices", ["merchant_id"], name: "index_invoices_on_merchant_id"
+  add_index "invoices", ["customer_id"], name: "index_invoices_on_customer_id", using: :btree
+  add_index "invoices", ["merchant_id"], name: "index_invoices_on_merchant_id", using: :btree
 
   create_table "items", force: :cascade do |t|
     t.string   "name"
     t.string   "description"
     t.decimal  "unit_price"
-    t.integer  "merchant_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "merchant_id"
   end
 
-  add_index "items", ["merchant_id"], name: "index_items_on_merchant_id"
+  add_index "items", ["merchant_id"], name: "index_items_on_merchant_id", using: :btree
 
   create_table "merchants", force: :cascade do |t|
     t.string   "name"
@@ -69,6 +72,12 @@ ActiveRecord::Schema.define(version: 20160601035359) do
     t.integer  "invoice_id"
   end
 
-  add_index "transactions", ["invoice_id"], name: "index_transactions_on_invoice_id"
+  add_index "transactions", ["invoice_id"], name: "index_transactions_on_invoice_id", using: :btree
 
+  add_foreign_key "invoice_items", "invoices"
+  add_foreign_key "invoice_items", "items"
+  add_foreign_key "invoices", "customers"
+  add_foreign_key "invoices", "merchants"
+  add_foreign_key "items", "merchants"
+  add_foreign_key "transactions", "invoices"
 end

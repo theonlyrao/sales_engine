@@ -1,26 +1,32 @@
 require 'rails_helper'
 
 RSpec.describe "MerchantsControllers", type: :request do
+  before(:each) do
+    5.times do
+      create(:merchant)
+    end
+  end
+  
   it "returns all merchants" do
     get "/api/v1/merchants.json"
     expect(response).to have_http_status(200)
     parsed_response = JSON.parse(response.body)
     expect(response.content_type).to eq("application/json")
-    expect(parsed_response.count).to eq(10)
-    expect(response.body).to include("Merchant 1")
+    expect(parsed_response.count).to eq(5)
   end
   
   it "returns individual merchant" do
-    get "/api/v1/merchants/2.json"
+    merchant = Merchant.last
+    get "/api/v1/merchants/#{merchant.id}.json"
     expect(response.content_type).to eq("application/json")
-    expect(response.body).to include("\"id\":2")
+    expect(response.body).to include("#{merchant.name}")
   end
 
   it "can find a single merchant" do
-    merchant = Merchant.find(2)
-    get "/api/v1/merchants/find?id=2"
+    merchant = Merchant.last
+    get "/api/v1/merchants/find?id=#{merchant.id}"
     expect(response.content_type).to eq("application/json")
-    expect(response.body).to include(merchant.name)
+    expect(response.body).to include("#{merchant.name}")
 
     get "/api/v1/merchants/find?name=#{merchant.name}"
     expect(response.body).to include("#{merchant.id}")
@@ -32,16 +38,17 @@ RSpec.describe "MerchantsControllers", type: :request do
   end
 
   it "can find multiple merchants" do
-    get "/api/v1/merchants/find_all?name=merch"
+    new = create(:merchant, name: "Multiple")
+    second = create(:merchant, name: "Multiple")
+    get "/api/v1/merchants/find_all?name=Multiple"
     parsed_response = JSON.parse(response.body)
-    expect(parsed_response.count).to eq(10)    
+    expect(parsed_response.count).to eq(2)    
     expect(response.content_type).to eq("application/json")
   end
   
-  it "can find a random invoice" do
+  it "can find a random merchant" do
     get "/api/v1/merchants/random.json"
     parsed_response = JSON.parse(response.body)    
-    expect(parsed_response.class).to eq(Hash)        
     expect(response.content_type).to eq("application/json")
     expect(response.body).to include("Merchant")
   end

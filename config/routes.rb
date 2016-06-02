@@ -2,15 +2,15 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       get "/customers", to: "customers#index"
-      get "/customers/find_all", to: "customers#find_all"
-      get "/customers/find", to: "customers#find"
-      get "/customers/random", to: "customers#random"
+      get "/customers/find_all", to: "customers/finder#index"
+      get "/customers/find", to: "customers/finder#show"
+      get "/customers/random", to: "customers/random#show"
       get "/customers/:id", to: "customers#show"
 
       get "/invoices", to: "invoices#index"
-      get "/invoices/find_all", to: "invoices#find_all"
-      get "/invoices/find", to: "invoices#find"
-      get "/invoices/random", to: "invoices#random"
+      get "/invoices/find_all", to: "invoices/finder#index"
+      get "/invoices/find", to: "invoices/finder#show"
+      get "/invoices/random", to: "invoices/random#show"
       get "/invoices/:id", to: "invoices#show"
 
       get "/items", to: "items#index"
@@ -29,6 +29,8 @@ Rails.application.routes.draw do
       get "/merchants/find", to: "merchants/finder#show"
       get "/merchants/find_all", to: "merchants/finder#index"
       get "/merchants/random", to: "merchants/random#show"
+      get "/merchants/:id/items", to: "merchants/merchant_items#index"
+      get "/merchants/:id/invoices", to: "merchants/merchant_invoices#index"
       get "/merchants/:id", to: "merchants#show"
 
       get "/invoice_items", to: "invoice_items#index"
@@ -36,6 +38,8 @@ Rails.application.routes.draw do
       get "/invoice_items/find_all", to: "invoice_items/finder#index"
       get "/invoice_items/random", to: "invoice_items/random#show"
       get "/invoice_items/:id", to: "invoice_items#show"
+
+      get "/:class/:id/:objects", to: "relationships#index"
     end
   end
   # The priority is based upon order of creation: first created -> highest priority.

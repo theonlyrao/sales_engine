@@ -8,9 +8,9 @@ Rails.application.routes.draw do
       get "/customers/:id", to: "customers#show"
 
       get "/invoices", to: "invoices#index"
-      get "/invoices/find_all", to: "invoices#find_all"
-      get "/invoices/find", to: "invoices#find"
-      get "/invoices/random", to: "invoices#random"
+      get "/invoices/find_all", to: "invoices/finder#index"
+      get "/invoices/find", to: "invoices/finder#show"
+      get "/invoices/random", to: "invoices/random#show"
       get "/invoices/:id", to: "invoices#show"
 
       get "/items", to: "items#index"

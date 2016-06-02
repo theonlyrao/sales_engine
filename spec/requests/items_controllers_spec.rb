@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "ItemsControllers", type: :request do
-  before(:all) do
+  before(:each) do
     5.times do
       create(:item)
     end
@@ -16,9 +16,10 @@ RSpec.describe "ItemsControllers", type: :request do
   end
   
   it "returns individual item" do
-    get "/api/v1/items/4.json"
+    returned = Item.last
+    get "/api/v1/items/#{returned.id}.json"
     expect(response.content_type).to eq("application/json")
-    expect(response.body).to include("Description for item 5")
+    expect(response.body).to include("#{returned.description}")
   end
 
   it "can find a single item" do
@@ -46,6 +47,7 @@ RSpec.describe "ItemsControllers", type: :request do
   end
 
   it "can find multiple items by price" do
+    create(:item, unit_price: 3000)
     create(:item, unit_price: 3000)
     get "/api/v1/items/find_all?unit_price=30.00"
     parsed_response = JSON.parse(response.body)

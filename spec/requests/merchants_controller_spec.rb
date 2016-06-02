@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "MerchantsControllers", type: :request do
-  before(:all) do
+  before(:each) do
     5.times do
       create(:merchant)
     end

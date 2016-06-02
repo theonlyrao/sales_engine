@@ -1,11 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe "InvoiceItemsControllers", type: :request do
-  before(:all) do
+  before(:each) do
     5.times do
       create(:invoice_item)
     end
   end
+  
   it "returns all invoice_items" do
     get "/api/v1/invoice_items.json"
     expect(response).to have_http_status(200)
@@ -15,10 +16,10 @@ RSpec.describe "InvoiceItemsControllers", type: :request do
   end
   
   it "returns individual invoice_item" do
-    invoice_item = InvoiceItem.last
-    get "/api/v1/invoice_items/#{invoice_item.id}.json"
+    instance = InvoiceItem.last
+    get "/api/v1/invoice_items/#{instance.id}.json"
     expect(response.content_type).to eq("application/json")
-    expect(response.body).to include("#{invoice_item.unit_price}")
+    expect(response.body).to include("#{instance.unit_price}")
   end
 
   it "can find a single invoice_item" do

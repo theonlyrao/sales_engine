@@ -1,11 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe "InvoicesControllers", type: :request do
-  before(:all) do
+  before(:each) do
     5.times do
       create(:invoice)
     end
   end
+  
   it "returns all invoices" do
     get "/api/v1/invoices.json"
     expect(response).to have_http_status(200)

@@ -11,7 +11,9 @@ class Api::V1::InvoiceItems::FinderController < ApplicationController
     elsif params.first.first == "quantity"
       respond_with InvoiceItem.find_by(quantity: params.first.last)
     elsif params.first.first == "unit_price"
-      respond_with InvoiceItem.find_by(unit_price: params.first.last)
+      price = params[:unit_price].to_f * 100
+      # respond_with Item.find_by(unit_price: price.ceil)
+      respond_with InvoiceItem.where("unit_price = ?", "#{price.ceil}").order(:id).limit(1).first
     elsif params.first.first == "created_at"
       respond_with InvoiceItem.find_by(created_at: params.first.last)
     else
@@ -26,10 +28,11 @@ class Api::V1::InvoiceItems::FinderController < ApplicationController
       respond_with InvoiceItem.where("invoice_id = ?", "#{params.first.last}")
      elsif params.first.first == "item_id"
       respond_with InvoiceItem.where("item_id = ?", "#{params.first.last}")
+    elsif params.first.first == "unit_price"
+      price = params[:unit_price].to_f * 100
+      respond_with InvoiceItem.where("unit_price = ?", "#{price.to_i}")
     elsif params.first.first == "quantity"
       respond_with InvoiceItem.where("quantity = ?", "#{params.first.last}")
-    elsif params.first.first == "unit_price"
-      respond_with InvoiceItem.where("unit_price = ?", "#{params.first.last}")
     elsif params.first.first == "created_at"
       respond_with InvoiceItem.where("created_at = ?", "#{params.first.last}")
     else

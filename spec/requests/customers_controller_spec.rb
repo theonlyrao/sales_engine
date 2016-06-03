@@ -56,7 +56,6 @@ RSpec.describe "customer controller", type: :request do
   it "can find a random customer" do
     get "/api/v1/customers/random.json"
     parsed_response = JSON.parse(response.body)    
-    expect(parsed_response.class).to eq(Hash)        
     expect(response.content_type).to eq("application/json")
     expect(response.body).to include("First")
   end

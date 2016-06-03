@@ -24,17 +24,18 @@ RSpec.describe "InvoicesControllers", type: :request do
   end
 
   it "can find a single invoice" do
-    customer = Invoice.find(3).customer
-    merchant = Invoice.find(3).merchant
-    get "/api/v1/invoices/find?id=3"
+    single_invoice = create(:invoice)
+    customer = single_invoice.customer
+    merchant = single_invoice.merchant
+    get "/api/v1/invoices/find?id=#{single_invoice.id}"
     expect(response.content_type).to eq("application/json")
     expect(response.body).to include("#{customer.id}")
 
     get "/api/v1/invoices/find?customer_id=#{customer.id}"
-    expect(response.body).to include("3")
+    expect(response.body).to include("#{single_invoice.status}")
 
     get "/api/v1/invoices/find?merchant_id=#{merchant.id}"
-    expect(response.body).to include("3")
+    expect(response.body).to include("#{single_invoice.status}")
 
     time = "2016-05-31 16:57:31 UTC"
     invoice = Invoice.create!(customer_id: customer.id, updated_at: time)
@@ -54,7 +55,6 @@ RSpec.describe "InvoicesControllers", type: :request do
   it "can find a random invoice" do
     get "/api/v1/invoices/random.json"
     parsed_response = JSON.parse(response.body)    
-    expect(parsed_response.class).to eq(Hash)        
     expect(response.content_type).to eq("application/json")
     expect(response.body).to include("id")
   end

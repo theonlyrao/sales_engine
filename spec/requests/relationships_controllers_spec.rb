@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe "RelationshipsControllers", type: :request do
-  describe "GET /api/v1/invoices/:invoice_id/items" do
+  it "won't accept a bad method" do
+    get "/api/v1/transactions/1/delete"
+    expect(response.body).to eq("null")
   end
 end

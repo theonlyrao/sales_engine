@@ -41,7 +41,7 @@ class Api::V1::Items::FinderController < ApplicationController
 
   def show
     if params[:unit_price]
-      price = params[:unit_price].to_f * 100
+      price = (params[:unit_price].to_f * 100).ceil
       respond_with Item.find_by(unit_price: price)
     else
       respond_with Item.find_by(item_params)

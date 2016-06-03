@@ -29,7 +29,7 @@ RSpec.describe "InvoiceItemsControllers", type: :request do
     expect(response.body).to include(invoice_item.quantity.to_s)
 
     get "/api/v1/invoice_items/find?unit_price=23.45"
-    expect(response.body).to include("#{invoice_item.id}")
+    expect(response.body).to include(invoice_item.id.to_s)
 
     time = "2016-05-31 16:57:31 UTC"
     invoice_item = InvoiceItem.create!(updated_at: time, unit_price: 23423)

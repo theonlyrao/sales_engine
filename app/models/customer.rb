@@ -9,4 +9,8 @@ class Customer < ActiveRecord::Base
   def self.find_many(params)
     where(params)
   end
+
+  def self.find_random
+    limit(1).order("RANDOM()")
+  end
 end

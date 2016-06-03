@@ -2,7 +2,7 @@ class Api::V1::Merchants::CustomerFavoriteMerchantController < ApplicationContro
   respond_to :json
 
   def show
-    respond_with Merchant.joins(:customers).where("customers.id = ?", "#{params["id"]}").joins(:transactions).where("result = ?", "success").group("merchants.id").order("sum(transactions.id) DESC").take(1).first
+    respond_with Merchant.favorite_of_customer(params["id"])
   end
 end
     

@@ -40,13 +40,21 @@ RSpec.describe "InvoiceItemsControllers", type: :request do
     expect(response.body).to include("234.23")
   end
 
-  it "can find multiple invoice_items" do
+  it "can find multiple invoice_items by quantity" do
     create(:invoice_item, quantity: 3203)
     create(:invoice_item, quantity: 3203)
     get "/api/v1/invoice_items/find_all?quantity=3203"
     parsed_response = JSON.parse(response.body)
     expect(parsed_response.count).to eq(2)    
     expect(response.content_type).to eq("application/json")
+  end
+
+  it "can find multiple invoice_items by price" do
+    create(:invoice_item, unit_price: 75849)
+    create(:invoice_item, unit_price: 75849)
+    get "/api/v1/invoice_items/find_all?unit_price=758.49"
+    parsed_response = JSON.parse(response.body)
+    expect(parsed_response.count).to eq(2)    
   end
   
   it "can find a random invoice" do

@@ -2,11 +2,11 @@ class Api::V1::Customers::FinderController < ApplicationController
   respond_to :json
 
   def show
-    respond_with Customer.find_by(customer_params)
+    respond_with Customer.find_one(customer_params)
   end
 
   def index
-    respond_with Customer.where(customer_params)    
+    respond_with Customer.find_many(customer_params) 
   end
 
   private

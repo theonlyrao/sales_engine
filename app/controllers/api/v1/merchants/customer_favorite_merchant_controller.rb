@@ -1,4 +1,4 @@
-class Api::V1::Customers::CustomerFavoriteMerchantController < ApplicationController
+class Api::V1::Merchants::CustomerFavoriteMerchantController < ApplicationController
   respond_to :json
 
   def show
